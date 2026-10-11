@@ -1,0 +1,95 @@
+{
+  "id": "lark",
+  "name": "飞书 / Lark",
+  "version": "0.1.0",
+  "apiVersion": 1,
+  "entry": "index.mjs",
+  "instructions": "SKILL.md",
+  "configuration": [
+    {
+      "key": "cli_path",
+      "label": "Lark CLI",
+      "type": "path",
+      "defaultValue": "lark-cli"
+    },
+    {
+      "key": "identity",
+      "label": "Identity",
+      "type": "enum",
+      "options": [
+        "user",
+        "bot"
+      ],
+      "defaultValue": "user",
+      "required": true
+    }
+  ],
+  "tools": [
+    {
+      "name": "help",
+      "description": "查看飞书 CLI 命令帮助，argv 仅包含命令路径，不包含参数",
+      "effect": "read",
+      "confirmation": "never",
+      "timeoutSeconds": 150,
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "argv"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "argv": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "query",
+      "description": "执行飞书 CLI 只读查询；也支持 skills list/read、schema、whoami 和 auth status",
+      "effect": "read",
+      "confirmation": "never",
+      "timeoutSeconds": 150,
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "argv"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "argv": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "execute",
+      "description": "执行用户要求的飞书写操作，先展示完整命令并确认；结果需随后用 query 回读，禁止盲目重试",
+      "effect": "write",
+      "confirmation": "always",
+      "timeoutSeconds": 150,
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "argv"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "argv": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
